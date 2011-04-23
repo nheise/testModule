@@ -2,34 +2,34 @@
  * [heisemedia] 2011
  */
 
-var mediaType = require("../lib/MediaType.js");
-var uriPattern = require("../lib/URIPattern.js");
+var mediaType = require("../../lib/MediaType.js");
+var uriPattern = require("../../lib/URIPattern.js");
 
-var responseLoader = require('../lib/ResponseLoader.js').responseLoader;
+var responseLoader = require('../../lib/ResponseLoader.js').responseLoader;
 
 exports.resources = [ {
-    uriPattern : uriPattern.create( '/test/{id}' ),
+    uriPattern : uriPattern.create( '/testResource/{id}' ),
     'GET' : {
         'text/html' : loadIndex
     }
 }, {
-    uriPattern : uriPattern.create( '/test/image/{filename}' ),
+    uriPattern : uriPattern.create( '/testResource/image/{filename}' ),
     'GET' : {
         'image/png' : responseLoader[mediaType.IMAGE_PNG]
     }
 }, {
-    uriPattern : uriPattern.create( '/test/css/{filename}' ),
+    uriPattern : uriPattern.create( '/testResource/css/{filename}' ),
     'GET' : {
         'text/css' : responseLoader[mediaType.TEXT_CSS]
     }
 }, {
-    uriPattern : uriPattern.create( '/test/js/{filename}' ),
+    uriPattern : uriPattern.create( '/testResource/js/{filename}' ),
     'GET' : {
         'text/javascript' : responseLoader[mediaType.TEXT_JAVASCRIPT],
         '*/*' : responseLoader[mediaType.TEXT_JAVASCRIPT]
     }
 }, {
-    uriPattern : uriPattern.create( '/test/video/{filename}' ),
+    uriPattern : uriPattern.create( '/testResource/video/{filename}' ),
     'GET' : {
         'video/ogg' : responseLoader[mediaType.VIDEO_OGG],
         'text/html' : responseLoader[mediaType.VIDEO_OGG]
@@ -38,9 +38,9 @@ exports.resources = [ {
 
 //var path = require('path');
 
-var response = require('../lib/Response.js');
+var response = require('../../lib/Response.js');
 
-var FILE_PATH = './resources';
+var RESOURCE_PATH = require('../../Configuration.js').RESOURCE_PATH;
 
 function loadIndex(req, res, args) {
     console.log('receive id:' + args.id);
@@ -51,5 +51,5 @@ function loadIndex(req, res, args) {
         response.send200(res, header, data, encoding);
     } );
     
-    fileResponse.loadData( FILE_PATH + '/test/index.html' );
+    fileResponse.loadData( RESOURCE_PATH + '/testResource/index.html' );
 }
