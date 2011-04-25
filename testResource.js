@@ -15,7 +15,8 @@ exports.resources = [ {
 }, {
     uriPattern : uriPattern.create( '/testResource/image/{filename}' ),
     'GET' : {
-        'image/png' : responseLoader[mediaType.IMAGE_PNG]
+        'image/png' : responseLoader[mediaType.IMAGE_PNG],
+        '*/*' : responseLoader[mediaType.IMAGE_PNG]
     }
 }, {
     uriPattern : uriPattern.create( '/testResource/css/{filename}' ),
@@ -32,7 +33,9 @@ exports.resources = [ {
     uriPattern : uriPattern.create( '/testResource/video/{filename}' ),
     'GET' : {
         'video/ogg' : responseLoader[mediaType.VIDEO_OGG],
-        'text/html' : responseLoader[mediaType.VIDEO_OGG]
+        'text/html' : responseLoader[mediaType.VIDEO_OGG],
+        'video/mp4' : responseLoader[mediaType.VIDEO_MP4],
+        '*/*' : responseLoader[mediaType.VIDEO_MP4]
     }
 } ];
 
