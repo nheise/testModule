@@ -44,10 +44,10 @@ var response = require('../../lib/Response.js');
 
 var RESOURCE_PATH = require('../../Configuration.js').RESOURCE_PATH;
 
-function loadIndex(req, res, args) {
-    console.log('receive id:' + args.id);
+function loadIndex(request, res) {
+    console.log('receive id:' + request.args.id);
     
-    var fileResponse = responseLoader[  mediaType.TEXT_HTML]();
+    var fileResponse = responseLoader[ mediaType.TEXT_HTML ]();
     
     fileResponse.onContent( function( header, data, encoding ) {
         response.send200(res, header, data, encoding);
