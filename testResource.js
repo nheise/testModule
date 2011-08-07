@@ -40,18 +40,16 @@ exports.resources = [
 
 //var path = require('path');
 
-var response = require('../../lib/Response.js');
+var RESOURCE_PATH = require( '../../Configuration.js' ).RESOURCE_PATH;
 
-var RESOURCE_PATH = require('../../Configuration.js').RESOURCE_PATH;
+function loadIndex( request, response ) {
+    console.log( 'receive id:' + request.args.id );
 
-function loadIndex(request, res) {
-    console.log('receive id:' + request.args.id);
-    
-    var fileResponse = responseLoader[ mediaType.TEXT_HTML ]();
-    
-    fileResponse.onContent( function( header, data, encoding ) {
-        response.send200(res, header, data, encoding);
+    var fileResponse = responseLoader[mediaType.TEXT_HTML]( response.header );
+
+    fileResponse.onContent( function( data, encoding ) {
+        response.send200( data, encoding );
     } );
-    
+
     fileResponse.loadData( RESOURCE_PATH + '/testResource/index.html' );
 }
