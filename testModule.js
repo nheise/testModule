@@ -52,6 +52,14 @@ restHttp.modules.put( {
           '*/*' : fileResponses.createStreamFileResponse( function( context ) { return 'video/' + context.request.args.filename + '.mp4'; } )
         }
       }
+    },
+    {
+      uriPattern : '/testModule/json',
+      methods : {
+        GET : {
+          'application/json' : function( context ) { responseUtil.send200( context, JSON.stringify( { status : 'JSON test passed.' } ) ); } 
+        }
+      }
     }
   ]
 });
