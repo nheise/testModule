@@ -47,9 +47,9 @@ restHttp.modules.put( {
       uriPattern : '/testModule/video/{filename}',
       methods : {
         GET : {
-          'video/ogg' : fileResponses.createStreamFileResponse( function( context ) { return 'video/' + context.request.args.filename + '.ogv'; } ),
-          'video/mp4' : fileResponses.createStreamFileResponse( function( context ) { return 'video/' + context.request.args.filename + '.mp4'; } ),
-          '*/*' : fileResponses.createBufferedFileResponse( function( context ) { return 'video/' + context.request.args.filename + '.mp4'; }, 'binary' )
+          'video/ogg' : fileResponses.createStreamFileResponse( function( context ) { return 'video/' + context.request.args.filename; } ),
+          'video/mp4' : fileResponses.createStreamFileResponse( function( context ) { return 'video/' + context.request.args.filename; } ),
+          '*/*' : fileResponses.createStreamFileResponse( function( context ) { return 'video/' + context.request.args.filename; } )
         }
       }
     },

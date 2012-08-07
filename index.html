@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <head>
-  <link rel="stylesheet" media="screen" href="testModule/css/screen.css" />
+  <link rel="stylesheet" media="screen" href="/testModule/css/screen.css" />
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-  <script type="text/javascript" src="testModule/js/script.js"></script>
+  <script type="text/javascript" src="/testModule/js/script.js"></script>
 </head>
 <body>
-  <img src="testModule/image/pic.png" />
-  <img src="testModule/image/pic.jpg" />
-  <img src="testModule/image/pic.jpeg" />
+  <img src="/testModule/image/pic.png" />
+  <img src="/testModule/image/pic.jpg" />
+  <img src="/testModule/image/pic.jpeg" />
   <p>Hello World</p>
   <br />
-  <input type="button" value="JSON Test" onclick="loadJson();" />
+  <input type="button" value="JSON Test" onclick="loadJson( 'http://nheise.net/testModule/json' );" />
   <br />
   <video controls="controls" preload="none" autobuffer="autobuffer">
-    <source type='video/ogg' src="testModule/video/Test"></source>
-    <source type='video/mp4' src="testModule/video/Test"></source>
+    <source type='video/ogg' src="/testModule/video/Test.ogv"></source>
+    <source type='video/mp4' src="/testModule/video/Test.mp4"></source>
   </video>
 </body>
 </html>
