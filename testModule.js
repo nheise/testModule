@@ -49,7 +49,7 @@ restHttp.modules.put( {
         GET : {
           'video/ogg' : fileResponses.createStreamFileResponse( function( context ) { return 'video/' + context.request.args.filename + '.ogv'; } ),
           'video/mp4' : fileResponses.createStreamFileResponse( function( context ) { return 'video/' + context.request.args.filename + '.mp4'; } ),
-          '*/*' : fileResponses.createStreamFileResponse( function( context ) { return 'video/' + context.request.args.filename + '.mp4'; } )
+          '*/*' : fileResponses.createBufferedFileResponse( function( context ) { return 'video/' + context.request.args.filename + '.mp4'; }, 'binary' )
         }
       }
     },
