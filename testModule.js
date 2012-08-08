@@ -1,6 +1,8 @@
 
 var restHttp = require('RESThttp');
 
+var queryString = require('querystring');
+
 var headerUtil = restHttp.httpHeaderUtil;
 var headerKeys = headerUtil.keys;
 var responseUtil = restHttp.responseUtil;
@@ -14,6 +16,34 @@ restHttp.modules.put( {
       methods : {
         GET : {
           'text/html' : fileResponses.createStreamFileResponse( function( context ) { return 'index.html'; } )
+        }
+      }
+    },
+    {
+      uriPattern : '/testModule/put',
+      methods : {
+        GET : {
+          'text/html' : fileResponses.createStreamFileResponse( function( context ) { return 'PUT_via_AJAX.html'; } )
+        }
+      }
+    },
+    {
+      uriPattern : '/testModule/put/{id}',
+      methods : {
+        PUT : {
+          '*/*' : function( context ) { 
+            var fields;
+            context.requestListener.on( 'data', function( chunk ) {
+              fields = queryString.parse(chunk.toString());
+            });
+            context.requestListener.on( 'end', function() {
+console.log(fields);
+              if( !fields || fields.foo == 'hallo3' ) {
+                responseUtil.send409( context );
+              }
+              responseUtil.send200( context );
+            });
+          }
         }
       }
     },

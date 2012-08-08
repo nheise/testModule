@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<meta charset=utf-8 />
+<title>PUT via ajax</title>
+  <script>
+    $(window).load( function() {
+      $('form[method=PUT]').submit( function() {
+        var form = $(this);
+        var action = form.attr('action'),
+            method = form.attr('method'),
+            serializedData = form.serialize();
+        
+        var request = $.ajax( {
+          type : method,
+          url : action,
+          data : serializedData
+        });
+
+        request.done( function( msg ) {
+          alert(JSON.stringify(msg));
+        });
+
+        request.fail( function( jqXHR, textStatus ) {
+          alert(JSON.stringify(jqXHR));
+        });
+        
+        return false;
+      });
+    });
+  </script>
+</head>
+<body>
+  <form action="http://nheise.net/testModule/put/update1" method="PUT">
+    <input type="text" name="foo" value="hallo1">
+    <input type="submit" value="Submit"/>
+  </form>
+  <form action="http://nheise.net/testModule/put/update2" method="POST">
+    <input type="text" name="foo" value="hallo2">
+    <input type="submit" value="Submit"/>
+  </form>
+  <form action="http://nheise.net/testModule/put/update3" method="PUT">
+    <input type="text" name="foo" value="hallo3">
+    <input type="submit" value="Submit"/>
+  </form>
+</body>
+</html>
