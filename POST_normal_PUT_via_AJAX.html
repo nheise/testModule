@@ -3,7 +3,7 @@
 <head>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 <meta charset=utf-8 />
-<title>PUT via ajax</title>
+<title>POST normal - PUT via ajax</title>
   <script>
     $(window).load( function() {
       $('form[method=PUT]').submit( function() {
@@ -15,15 +15,14 @@
         var request = $.ajax( {
           type : method,
           url : action,
-          data : serializedData
-        });
-
-        request.done( function( msg ) {
-          alert(JSON.stringify(msg));
-        });
-
-        request.fail( function( jqXHR, textStatus ) {
-          alert(JSON.stringify(jqXHR));
+          dataType : 'json',
+          data : serializedData,
+          complete : function( data, textStatus, jqXHR ) {
+            alert( JSON.stringify( data ) );
+          },
+          fail : function( jqXHR, textStatus ) {
+            alert( JSON.stringify( jqXHR ) );
+          }
         });
         
         return false;
@@ -32,17 +31,21 @@
   </script>
 </head>
 <body>
-  <form action="http://nheise.net/testModule/put/update1" method="PUT">
+  <h1>POST</h1>
+  <form action="http://nheise.net/testModule/forms" method="POST">
     <input type="text" name="foo" value="hallo1">
     <input type="submit" value="Submit"/>
   </form>
-  <form action="http://nheise.net/testModule/put/update2" method="POST">
+  <h1>PUT via AJAX</h1>
+  <form action="http://nheise.net/testModule/forms/p1" method="PUT">
     <input type="text" name="foo" value="hallo2">
     <input type="submit" value="Submit"/>
   </form>
-  <form action="http://nheise.net/testModule/put/update3" method="PUT">
+  <h1>PUT via POST with hidden _method field</h1>
+  <form action="http://nheise.net/testModule/forms/p1" method="POST">
     <input type="text" name="foo" value="hallo3">
     <input type="submit" value="Submit"/>
+    <input type="hidden" name="_method" value="PUT"/>
   </form>
 </body>
 </html>

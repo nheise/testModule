@@ -6,7 +6,10 @@ var queryString = require('querystring');
 var headerUtil = restHttp.httpHeaderUtil;
 var headerKeys = headerUtil.keys;
 var responseUtil = restHttp.responseUtil;
+var contextUtil = restHttp.contextUtil;
 var fileResponses = restHttp.fileResponses;
+
+var foo = "hallo";
 
 restHttp.modules.put( {
   id : 'testModule',
@@ -20,27 +23,47 @@ restHttp.modules.put( {
       }
     },
     {
-      uriPattern : '/testModule/put',
+      uriPattern : '/testModule/forms',
       methods : {
         GET : {
-          'text/html' : fileResponses.createStreamFileResponse( function( context ) { return 'PUT_via_AJAX.html'; } )
+          'text/html' : fileResponses.createStreamFileResponse( function( context ) { return 'POST_normal_PUT_via_AJAX.html'; } )
+        },
+        POST : {
+          'text/html' : function( context ) {
+            context.requestListener.on( 'data', function( chunk ) {
+console.log(chunk.toString());
+              foo = queryString.parse(chunk.toString()).foo;
+            });
+            context.requestListener.on( 'end', function() {
+              contextUtil.prepare303( context, 'http://nheise.net/testModule/forms/p1' );
+              responseUtil.send303( context );
+            });
+          }
         }
       }
     },
     {
-      uriPattern : '/testModule/put/{id}',
+      uriPattern : '/testModule/forms/p1',
       methods : {
+        GET : {
+          'text/html' : function( context ) {
+            contextUtil.prepare200( context, '<p> P1 say\'s ' + foo  + '</p>' );
+            responseUtil.send200( context );
+          }
+        },
         PUT : {
-          '*/*' : function( context ) { 
-            var fields;
+          'text/html' : function( context ) { 
+console.log(context.request.data);
+            foo = queryString.parse( context.request.data ).foo;
+            responseUtil.send200( context );
+          },
+          'application/json' : function( context ) {
             context.requestListener.on( 'data', function( chunk ) {
-              fields = queryString.parse(chunk.toString());
+console.log(chunk.toString());
+              foo = queryString.parse(chunk.toString()).foo;
             });
             context.requestListener.on( 'end', function() {
-console.log(fields);
-              if( !fields || fields.foo == 'hallo3' ) {
-                responseUtil.send409( context );
-              }
+              contextUtil.prepare200( context, JSON.stringify( { 'foo' : foo } ) );
               responseUtil.send200( context );
             });
           }
